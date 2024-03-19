@@ -34,6 +34,7 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { TodoListPage } from '@internal/plugin-todo-list';
+import { SignInPage } from './components/SignIn/SignInPage';
 
 const app = createApp({
   apis,
@@ -53,6 +54,9 @@ const app = createApp({
     bind(orgPlugin.externalRoutes, {
       catalogIndex: catalogPlugin.routes.catalogIndex,
     });
+  },
+  components: {
+    SignInPage: props => <SignInPage {...props} />,
   },
 });
 

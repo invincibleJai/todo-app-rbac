@@ -34,6 +34,9 @@
   },
   "dependencies": {
     "@backstage/backend-common": "^0.21.0",
+    "@backstage/plugin-permission-common": "^0.7.12",
+    "@backstage/plugin-permission-node": "^0.7.21",
+    "@internal/plugin-todo-list-common": "1.0.18-next.1",
     "@backstage/backend-plugin-api": "^0.6.13",
     "@backstage/errors": "^1.2.3",
     "@backstage/plugin-auth-node": "^0.4.4",
