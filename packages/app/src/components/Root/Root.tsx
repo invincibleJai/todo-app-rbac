@@ -27,6 +27,9 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 
+import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
+import { Administration } from '@janus-idp/backstage-plugin-rbac';
+
 const useSidebarLogoStyles = makeStyles({
   root: {
     width: sidebarConfig.drawerWidthClosed,
@@ -77,6 +80,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       </SidebarGroup>
       <SidebarSpace />
       <SidebarDivider />
+      <SidebarGroup label="Administration" icon={<SupervisorAccount />}>
+        <Administration />
+      </SidebarGroup>
       <SidebarGroup
         label="Settings"
         icon={<UserSettingsSignInAvatar />}

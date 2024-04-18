@@ -1,0 +1,21 @@
+p, role:default/guests, catalog-entity, read, deny
+p, role:default/guests, catalog.entity.create, use, deny
+
+p, role:default/rbac_admin, catalog-entity, read, allow
+p, role:default/rbac_admin, catalog.entity.create, create, deny
+p, role:default/rbac_admin, catalog.location.create, create, allow
+p, role:default/rbac_admin, catalog.location.read, read, allow
+p, role:default/rbac_admin, kubernetes.proxy, use, allow
+p, role:default/rbac_admin, todo.list.create, create, deny
+
+
+p, role:default/jai-test-role, catalog-entity, read, allow
+p, role:default/jai-test-role, catalog.entity.create, create, allow
+p, role:default/jai-test-role, catalog.location.create, create, allow
+p, role:default/jai-test-role, catalog.location.read, read, allow
+
+
+g, user:default/guest, role:default/jai-test-role
+
+g, user:default/guest, role:default/guests
+

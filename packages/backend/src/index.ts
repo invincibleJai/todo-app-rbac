@@ -29,6 +29,7 @@ import proxy from './plugins/proxy';
 import techdocs from './plugins/techdocs';
 import search from './plugins/search';
 import todoList from './plugins/todolist';
+import permission from './plugins/permissions';
 
 import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
@@ -40,7 +41,8 @@ function makeCreateEnv(config: Config) {
   const discovery = HostDiscovery.fromConfig(config);
   const cacheManager = CacheManager.fromConfig(config);
   const databaseManager = DatabaseManager.fromConfig(config, { logger: root });
-  const tokenManager = ServerTokenManager.noop();
+  // Enable service to service auth https://backstage.io/docs/auth/service-to-service-auth/
+  const tokenManager = ServerTokenManager.fromConfig(config, { logger: root });
   const taskScheduler = TaskScheduler.fromConfig(config, { databaseManager });
 
   const identity = DefaultIdentityClient.create({
@@ -88,6 +90,7 @@ async function main() {
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
   const todoListEnv = useHotMemoize(module, () => createEnv('todolist'));
+  const permissionEnv = useHotMemoize(module, () => createEnv('permission'));
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -97,6 +100,10 @@ async function main() {
   apiRouter.use('/proxy', await proxy(proxyEnv));
   apiRouter.use('/search', await search(searchEnv));
   apiRouter.use('/todolist', await todoList(todoListEnv));
+  apiRouter.use('/permission', await permission(permissionEnv, {
+    // return list static plugin which supports Backstage permissions.
+    getPluginIds: () => ['catalog', 'scaffolder', 'permission'],
+  }))
 
   // Add backends ABOVE this line; this 404 handler is the catch-all fallback
   apiRouter.use(notFoundHandler());

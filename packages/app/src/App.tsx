@@ -35,6 +35,8 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import { TodoListPage } from '@internal/plugin-todo-list';
 import { SignInPage } from './components/SignIn/SignInPage';
+import { RbacPage } from '@janus-idp/backstage-plugin-rbac';
+import { policyEntityReadPermission } from '@janus-idp/backstage-plugin-rbac-common';
 
 const app = createApp({
   apis,
@@ -99,6 +101,17 @@ const routes = (
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/todo-list" element={<TodoListPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    <Route
+      path="/rbac"
+      element={
+        <RequirePermission
+          permission={policyEntityReadPermission}
+          resourceRef="policy-entity"
+        >
+          <RbacPage />
+        </RequirePermission>
+      }
+    />
   </FlatRoutes>
 );
 
